@@ -1,0 +1,198 @@
+/* ========== Reset & tokens (wireframe style) ========== */
+* { box-sizing: border-box; }
+html, body { height: 100%; }
+body {
+  margin: 0;
+  font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  color: #111;
+  background: #fff;
+}
+:root {
+  --line: #cfd8e3;        /* viền mảnh */
+  --ink: #0f172a;         /* chữ */
+  --muted: #eef2ff;       /* nền nhạt (thanh công cụ, header) */
+  --gap: 12px;
+  --rail-w: 280px;        /* độ rộng thanh công cụ khi mở */
+  --rail-w-collapsed: 56px; /* độ rộng khi thu gọn */
+  --right-w: 260px;       /* cột phải desktop */
+}
+
+/* Viền hộp nhẹ để giống sketch */
+.box {
+  border: 1px solid var(--line);
+  background: #fff;
+  border-radius: 4px;
+  padding: 12px;
+}
+
+/* Ẩn thị giác cho input toggle */
+.visually-hidden {
+  position: absolute !important;
+  width: 1px; height: 1px;
+  padding: 0; margin: -1px;
+  overflow: hidden; clip: rect(0 0 0 0);
+  white-space: nowrap; border: 0;
+}
+
+/* ========== Header ========== */
+.site-header {
+  position: sticky; top: 0; z-index: 10;
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: var(--gap);
+  padding: 10px var(--gap);
+  background: var(--muted);
+  border-bottom: 1px solid var(--line);
+}
+.logo, .user {
+  padding: 8px 10px;
+  border: 1px solid var(--line);
+  background: #fff;
+  border-radius: 4px;
+  text-align: center;
+}
+.search-and-menu {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 8px;
+  align-items: center;
+}
+.search input {
+  width: 100%;
+  height: 36px;
+  padding: 0 10px;
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  background: #fff;
+}
+.menu {
+  display: flex;
+  gap: 10px;
+}
+.menu a {
+  padding: 8px 10px;
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  text-decoration: none;
+  color: var(--ink);
+  background: #fff;
+}
+
+/* ========== Toolbar toggle (only visible on small screens) ========== */
+.toolbar-toggle {
+  display: none;
+  position: sticky; top: 60px; /* dưới header một chút */
+  z-index: 9;
+  margin: 8px;
+  padding: 8px 10px;
+  border: 1px dashed var(--line);
+  background: var(--muted);
+  border-radius: 6px;
+  cursor: pointer;
+  user-select: none;
+}
+
+/* ========== Page grid ========== */
+.page {
+  display: grid;
+  grid-template-columns: var(--rail-w) 1fr var(--right-w);
+  gap: var(--gap);
+  padding: var(--gap);
+  min-height: calc(100vh - 64px);
+}
+
+/* Left rail (toolbar) */
+.toolbar {
+  border: 1px solid var(--line);
+  background: var(--muted);
+  border-radius: 6px;
+  overflow: hidden;
+}
+.toolbar-inner {
+  display: grid;
+  gap: 12px;
+  padding: 12px;
+}
+.tools { list-style: none; padding: 0; margin: 0; }
+.tools li + li { margin-top: 6px; }
+.tools a {
+  display: block;
+  padding: 8px 10px;
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  text-decoration: none;
+  color: var(--ink);
+  background: #fff;
+}
+
+/* Center column */
+.center {
+  display: grid;
+  grid-template-rows: auto 1fr;
+  gap: var(--gap);
+}
+
+/* Right rail */
+.right-rail {
+  display: grid;
+  grid-template-rows: 1fr auto;
+  gap: var(--gap);
+}
+
+/* Ẩn các bản sao mobile/desktop đúng vị trí */
+.source-mobile, .authors-mobile { display: none; }
+
+/* ========== Responsive ========== */
+
+/* --- Tablet & nhỏ hơn: cột phải xuống dưới, có nút mở/đóng toolbar --- */
+@media (max-width: 1024px) {
+  .page {
+    grid-template-columns: var(--rail-w) 1fr; /* bỏ cột phải */
+  }
+  .right-rail { display: none; }             /* source/authors chuyển xuống giữa */
+  .source-mobile, .authors-mobile { display: block; }
+
+  .toolbar-toggle { display: inline-block; }
+
+  /* Trạng thái mặc định: thanh công cụ thu gọn */
+  .page { grid-template-columns: var(--rail-w-collapsed) 1fr; }
+  .toolbar { width: 100%; }
+  .toolbar .toolbar-inner { padding-left: 8px; }
+  .toolbar { transition: width .2s ease; }
+
+  /* Khi bật checkbox -> mở rộng thanh công cụ */
+  #toggle-toolbar:checked ~ .page {
+    grid-template-columns: var(--rail-w) 1fr;
+  }
+}
+
+/* --- Mobile nhỏ: mọi thứ xếp dọc giống sketch --- */
+@media (max-width: 640px) {
+  .site-header {
+    grid-template-columns: auto 1fr auto; /* giữ 3 khu như sketch */
+  }
+  .search-and-menu {
+    grid-template-columns: 1fr;           /* stack search và menu theo dọc */
+    gap: 6px;
+  }
+  .menu { flex-wrap: wrap; }
+
+  .page {
+    grid-template-columns: var(--rail-w-collapsed) 1fr;
+    gap: 10px;
+    padding: 10px;
+  }
+  /* Content + Information xếp dọc, Source + Authors ở cuối */
+  .center { grid-template-rows: auto auto auto auto; }
+  .content { min-height: 120px; }
+  .information { min-height: 220px; }
+
+  /* Cho cảm giác sát sketch hơn: thanh công cụ hẹp màu nhạt */
+  .toolbar { background: #e6efff; }
+
+  /* Khi bật -> mở thanh công cụ */
+  #toggle-toolbar:checked ~ .page {
+    grid-template-columns: var(--rail-w) 1fr;
+  }
+}

@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Wireframe Layout Demo</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <!-- ====== Header ====== -->
+  <header class="site-header">
+    <div class="logo">Logo</div>
+
+    <div class="search-and-menu">
+      <form class="search">
+        <input type="search" placeholder="Search…" aria-label="Search" />
+      </form>
+      <nav class="menu" aria-label="Main">
+        <a href="#">Home</a>
+        <a href="#">Topics</a>
+        <a href="#">About</a>
+      </nav>
+    </div>
+
+    <div class="user">user</div>
+  </header>
+
+  <!-- ====== Toolbar toggle (pure CSS) for mobile ====== -->
+  <input type="checkbox" id="toggle-toolbar" class="visually-hidden" />
+  <label for="toggle-toolbar" class="toolbar-toggle" aria-label="Mở/đóng thanh công cụ">
+    ☰ Tools
+  </label>
+
+  <!-- ====== Page grid ====== -->
+  <main class="page">
+    <!-- Left: Tool bar -->
+    <aside class="toolbar" aria-label="Tool bar">
+      <div class="toolbar-inner">
+        <p>Tool bar<br/>can be<br/>shrink<br/>to the left</p>
+        <ul class="tools">
+          <li><a href="#">Tool A</a></li>
+          <li><a href="#">Tool B</a></li>
+          <li><a href="#">Tool C</a></li>
+        </ul>
+      </div>
+    </aside>
+
+    <!-- Center: Content + Information -->
+    <section class="center">
+      <article class="content box">content</article>
+      <article class="information box">Information</article>
+      <article class="source box source-mobile">source</article>
+      <article class="authors box authors-mobile">authors</article>
+    </section>
+
+    <!-- Right: Source + Authors (desktop) -->
+    <aside class="right-rail" aria-label="Right rail">
+      <section class="source box">source</section>
+      <section class="authors box">authors</section>
+    </aside>
+  </main>
+</body>
+</html>
